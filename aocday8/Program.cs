@@ -11,49 +11,61 @@ var answer = 0;
 
 foreach (var value in entries)
 {
-    var decoder = BuildDecoder();
-    var leftPart = value[0].Split();
-    var rightPart = value[1].Split();
+    Dictionary<int, List<char>> decoder = new();
 
-    decoder[8] = leftPart.First(Is8).ToList();
-    decoder[7] = leftPart.First(Is7).ToList();
-    decoder[1] = leftPart.First(Is1).ToList();
-    decoder[4] = leftPart.First(Is4).ToList();
-
-    decoder[6] = leftPart.First(x => x.Length == 6 && !decoder[7].All(a => x.Contains(a)) && !decoder.ContainsValue(x.ToList())).ToList();
-
-    char c = decoder[1].Except(decoder[6]).First();
-    char f = decoder[1].Except(new char[] { c }).First();
-    
-
-    decoder[3] = leftPart.First(x => x.Length == 5 && (x.Contains(c) && x.Contains(f)) && !decoder.ContainsValue(x.ToList())).ToList();
-    decoder[2] = leftPart.First(x => x.Length == 5 && (x.Contains(c) && !x.Contains(f)) && !decoder.ContainsValue(x.ToList())).ToList();
-    decoder[5] = leftPart.First(x => x.Length == 5 && (!x.Contains(c) && x.Contains(f)) && !decoder.ContainsValue(x.ToList())).ToList();
-    
-    char e = decoder[6].Except(decoder[5]).First();
-
-    decoder[0] = leftPart.First(x => x.Length == 6 && x.Contains(e) && !decoder.ContainsValue(x.ToList())).ToList();
-    decoder[9] = leftPart.First(x => !decoder.ContainsValue(x.ToList())).ToList();
-
-    var reverseDecoder = new Dictionary<string, int>();
-    foreach (var entry in decoder)
+    // char enumerables will allow us easy searching for the necessary parts
+    List<List<char>> inputs = new();
+    foreach(var x in value[0].Split()[..10])
     {
-        reverseDecoder.Add(new string(entry.Value.ToArray()), entry.Key);
+        var tmp = x.ToList();
+        inputs.Add(tmp);
     }
     
-    var solution = "";
-    foreach (var o in rightPart)
-        solution += reverseDecoder[o];
+    List<string> outputs = new();
+    foreach(var x in value[1].Split()[..])
+    {
+        var tmp = x.ToList();
+        tmp.Sort();
+        outputs.Add(new(tmp.ToArray()));
+    }
+    
+    // these are the easy ones to get
+    decoder[1] = inputs.First(x => x.Count == 2);
+    decoder[4] = inputs.First(x => x.Count == 4);
+    decoder[7] = inputs.First(x => x.Count == 3);
+    decoder[8] = inputs.First(x => x.Count == 7);
 
+    // 6 must have length 6 and contain all elements of 7
+    decoder[6] = inputs.First(x => x.Count == 6 && !decoder[7].All(x.Contains) && !decoder.ContainsValue(x));
+
+    // now we have 6 we can work out what the c and f signals are
+    char c = decoder[1].Except(decoder[6]).First();
+    char f = decoder[1].Except(new[] { c }).First();
+
+    // now we have c and f by process of elimination we can find 3, 2 and 5
+    decoder[3] = inputs.First(x => x.Count == 5 && (x.Contains(c) && x.Contains(f)) && !decoder.ContainsValue(x));
+    decoder[2] = inputs.First(x => x.Count == 5 && (x.Contains(c) && !x.Contains(f)) && !decoder.ContainsValue(x));
+    decoder[5] = inputs.First(x => x.Count == 5 && (!x.Contains(c) && x.Contains(f)) && !decoder.ContainsValue(x));
+
+    // signal for e must be the elements of 6 not in 5
+    char e = decoder[6].Except(decoder[5]).First();
+
+    // now we can just figure out the last 2
+    decoder[0] = inputs.First(x => x.Count == 6 && x.Contains(e) && !decoder.ContainsValue(x));
+    decoder[9] = inputs.First(x => !decoder.ContainsValue(x));
+    
+    // now we just reverse lookup into decoder and get our string representation of hte output
+    var solution = "";
+    foreach (var o in outputs)
+       solution += decoder.FirstOrDefault(x =>
+       {
+           x.Value.Sort();
+           var converted = new string(x.Value.ToArray());
+           return converted == o;
+       }).Key;
+
+    // total up the answer
     answer += int.Parse(solution);
 }
 
 Console.WriteLine(answer);
-
-bool Is8(string val) => val.Length == 7;
-bool Is7(string val) => val.Length == 3;
-bool Is1(string val) => val.Length == 2;
-bool Is4(string val) => val.Length == 4;
-
-
-Dictionary<int, List<char>> BuildDecoder() => new();
