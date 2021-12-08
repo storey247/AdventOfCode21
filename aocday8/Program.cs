@@ -22,7 +22,7 @@ foreach (var value in entries)
     }
     
     List<string> outputs = new();
-    foreach(var x in value[1].Split()[..])
+    foreach (var x in value[1].Split()[..])
     {
         var tmp = x.ToList();
         tmp.Sort();
@@ -39,8 +39,8 @@ foreach (var value in entries)
     decoder[6] = inputs.First(x => x.Count == 6 && !decoder[7].All(x.Contains) && !decoder.ContainsValue(x));
 
     // now we have 6 we can work out what the c and f signals are
-    char c = decoder[1].Except(decoder[6]).First();
-    char f = decoder[1].Except(new[] { c }).First();
+    var c = decoder[1].Except(decoder[6]).First();
+    var f = decoder[1].Except(new[] { c }).First();
 
     // now we have c and f by process of elimination we can find 3, 2 and 5
     decoder[3] = inputs.First(x => x.Count == 5 && (x.Contains(c) && x.Contains(f)) && !decoder.ContainsValue(x));
@@ -48,7 +48,7 @@ foreach (var value in entries)
     decoder[5] = inputs.First(x => x.Count == 5 && (!x.Contains(c) && x.Contains(f)) && !decoder.ContainsValue(x));
 
     // signal for e must be the elements of 6 not in 5
-    char e = decoder[6].Except(decoder[5]).First();
+    var e = decoder[6].Except(decoder[5]).First();
 
     // now we can just figure out the last 2
     decoder[0] = inputs.First(x => x.Count == 6 && x.Contains(e) && !decoder.ContainsValue(x));
