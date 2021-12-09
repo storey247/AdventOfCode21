@@ -17,24 +17,20 @@ for (var x = 0; x < grid.Length; x++)
 {
     for (var y = 0; y < grid[0].Length; y++)
     {
-        var current = grid[x][y];
-        //checkLeft
-        if (x != 0 && current >= grid[x - 1][y])
-            continue;
-        //checkRight
-        if (x != grid.Length - 1 && current >= grid[x + 1][y])
-            continue;
-        //checkTop
-        if (y != 0 && current >= grid[x][y - 1])
-            continue;
-        //checkBot
-        if (y != grid[0].Length - 1 && current >= grid[x][y + 1])
-            continue;
-        smallest.Add(current);
-        lowestPoints.Add(new Point(x, y));
+        var current = new Point(x, y);
+        var number = grid[x][y];
+        
+        var neighbours = GetNeighbours(current).Where(IsValidPoint).Select(p => grid[p.X][p.Y]).ToArray();
+
+        if (number < neighbours.Min())
+        {
+            smallest.Add(number);
+            lowestPoints.Add(new Point(x, y));
+        }
     }
 }
 
+// solve part 2 using the lowpoints discovered above
 List<HashSet<Point>> basins = new();
 
 foreach (var lowPoint in lowestPoints)
@@ -74,6 +70,11 @@ var answerPart1 = smallest.Sum() + smallest.Count;
 
 Console.WriteLine(answerPart1);
 Console.WriteLine(answerPart2);
+
+if (answerPart1 != 585 || answerPart2 != 827904)
+    throw new Exception();
+
+
 
 List<Point> GetNeighbours(Point val)
 {
