@@ -17,15 +17,15 @@ for (var x = 0; x < grid.Length; x++)
 {
     for (var y = 0; y < grid[0].Length; y++)
     {
-        var current = new Point(x, y);
+        var currentPoint = new Point(x, y);
         var number = grid[x][y];
         
-        var neighbours = GetNeighbours(current).Where(IsValidPoint).Select(p => grid[p.X][p.Y]).ToArray();
+        var neighbours = GetNeighbours(currentPoint).Where(IsValidPoint).Select(p => grid[p.X][p.Y]).ToArray();
 
         if (number < neighbours.Min())
         {
             smallest.Add(number);
-            lowestPoints.Add(new Point(x, y));
+            lowestPoints.Add(currentPoint);
         }
     }
 }
@@ -43,22 +43,17 @@ foreach (var lowPoint in lowestPoints)
     while (pointsToCheck.Count > 0)
     {
         var point = pointsToCheck.Dequeue();
-        checkedPoints.Add(point);
 
         var neighbours = GetNeighbours(point).Where(IsValidPoint).ToArray();
         
-        // check if the points are valid
-        foreach (var n in neighbours)
+        // for all the points that are valid
+        foreach (var n in neighbours.Where(p => grid[p.X][p.Y] != 9).ToArray())
         {
-            if (grid[n.X][n.Y] != 9)
-            {
-                if (!checkedPoints.Contains(n))
-                {
-                    pointsToCheck.Enqueue(n);
-                }
-                
-                checkedPoints.Add(n);
-            }
+            if (!checkedPoints.Contains(n))
+                pointsToCheck.Enqueue(n); // add to queue as this isn't a point we've checked before
+
+            // this is part of the basin, add it to the hashset
+            checkedPoints.Add(n);
         }
     }
     
