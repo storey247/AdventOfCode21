@@ -65,7 +65,7 @@ foreach (var incompleteLine in incompleteLines)
 }
 
 scores.Sort();
-var answer2 = scores.ToArray()[scores.Count / 2];
+var answer2 = scores[scores.Count / 2];
 
 Console.WriteLine(answer);
 Console.WriteLine(answer2);
