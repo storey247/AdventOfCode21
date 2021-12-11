@@ -3,10 +3,52 @@
 using System.Drawing;
 using aocextensions;
 
-var input = File.ReadAllLines("input.txt").Select(x => x.ToCharArray().Select(y => int.Parse(y.ToString())).ToArray()).ToArray();
-var total = 0;
+var input = InputExtensions.GetAllInputAsInt("input.txt");
+var answer1 = 0;
+var answer2 = 0;
 
+// part 1
 for (int i = 0; i < 100; i++)
+{
+    var flashes = GetDailyFlash(ref input);
+    Console.WriteLine($"Flashes today: {flashes}");
+    answer1 += flashes;
+
+    // reset all the flashed octopods
+    input = input.Select(x => x.Select(y => y = y > 9 ? 0 : y).ToArray()).ToArray();
+
+    if (input.Sum(p => p.Sum()) == 0)
+    {
+        Console.WriteLine($"All flashed on day: {i + 1}");
+        break;
+    }
+}
+
+//part 2
+input = InputExtensions.GetAllInputAsInt("input.txt");
+for (int i = 0; i < 100000; i++)
+{
+    GetDailyFlash(ref input);
+    // reset all the flashed octopods
+    input = input.Select(x => x.Select(y => y = y > 9 ? 0 : y).ToArray()).ToArray();
+
+    if (input.Sum(p => p.Sum()) == 0)
+    {
+        answer2 = i + 1;
+        Console.WriteLine($"All flashed on day: {i + 1}");
+        break;
+    }
+}
+
+Console.WriteLine($"Answer1: {answer1}");
+if (answer1 != 1634)
+    throw new Exception();
+
+Console.WriteLine($"Answer2: {answer2}");
+if (answer2 != 210)
+    throw new Exception();
+
+int GetDailyFlash(ref int[][] input)
 {
     // increase everything by 1
     input = input.IncrementAllByValue(1);
@@ -27,6 +69,7 @@ for (int i = 0; i < 100; i++)
                     input[row][col]++;
                     someoneFlash = true;
 
+                    // power up the neighbours
                     foreach (var value in new Point(row, col).GetAllValidNeighbours(input.Length, input[0].Length))
                     {
                         if (input[value.X][value.Y] < 10)
@@ -38,18 +81,6 @@ for (int i = 0; i < 100; i++)
             }
         }
     }
-    
-    Console.WriteLine($"Flashes today: {flashes}");
-    total += flashes;
 
-    // reset all the flashed octopods
-    input = input.Select(x => x.Select(y => y = y > 9 ? 0 : y).ToArray()).ToArray();
-
-    if (input.Sum(p => p.Sum()) == 0)
-    {
-        Console.WriteLine($"All flashed on day: {i + 1}");
-        break;
-    }
+    return flashes;
 }
-
-Console.WriteLine(total);
