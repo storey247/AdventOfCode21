@@ -48,33 +48,33 @@ Console.WriteLine($"Answer2: {answer2}");
 if (answer2 != 210)
     throw new Exception();
 
-int GetDailyFlash(ref int[][] input)
+int GetDailyFlash(ref int[][] dailyInput)
 {
     // increase everything by 1
-    input = input.IncrementAllByValue(1);
+    dailyInput = dailyInput.IncrementAllByValue(1);
     
     var flashes = 0;
     bool someoneFlash = true;
     while (someoneFlash)
     {
         someoneFlash = false;
-        for (int row = 0; row < input.Length; row++)
+        for (int row = 0; row < dailyInput.Length; row++)
         {
-            for (int col = 0; col < input[row].Length; col++)
+            for (int col = 0; col < dailyInput[row].Length; col++)
             {
-                if (input[row][col] == 10)
+                if (dailyInput[row][col] == 10)
                 {
                     // this octopod wants to flash
                     flashes++;
-                    input[row][col]++;
+                    dailyInput[row][col]++;
                     someoneFlash = true;
 
                     // power up the neighbours
-                    foreach (var value in new Point(row, col).GetAllValidNeighbours(input.Length, input[0].Length))
+                    foreach (var value in new Point(row, col).GetAllValidNeighbours(dailyInput.Length, dailyInput[0].Length))
                     {
-                        if (input[value.X][value.Y] < 10)
+                        if (dailyInput[value.X][value.Y] < 10)
                         {
-                            input[value.X][value.Y]++;
+                            dailyInput[value.X][value.Y]++;
                         }
                     }
                 }
