@@ -5,24 +5,16 @@ using System.Drawing;
 var input = File.ReadAllLines("input.txt").Select(x => x.ToCharArray().Select(y => int.Parse(y.ToString())).ToArray()).ToArray();
 var total = 0;
 
-
-for (int i = 0; i < 10000000; i++)
+for (int i = 0; i < 100; i++)
 {
-    // increase the energy of everything
-    for (int row = 0; row < input.Length; row++)
-    {
-        for (int col = 0; col < input[row].Length; col++)
-        {
-            input[row][col]++;
-        }
-    }
+    // increase everything by 1
+    input = input.Select(x => x.Select(y => y + 1).ToArray()).ToArray();
     
     var flashes = 0;
-    var previousFlashes = -1;
-    while (previousFlashes != flashes)
+    bool someoneFlash = true;
+    while (someoneFlash)
     {
-        previousFlashes = flashes;
-        
+        someoneFlash = false;
         for (int row = 0; row < input.Length; row++)
         {
             for (int col = 0; col < input[row].Length; col++)
@@ -32,6 +24,7 @@ for (int i = 0; i < 10000000; i++)
                     // this octopod wants to flash
                     flashes++;
                     input[row][col]++;
+                    someoneFlash = true;
 
                     foreach (var value in GetNeighbours(new Point(row, col)))
                     {
@@ -47,20 +40,13 @@ for (int i = 0; i < 10000000; i++)
     
     Console.WriteLine($"Flashes today: {flashes}");
     total += flashes;
-    
+
     // reset all the flashed octopods
-    for (int row = 0; row < input.Length; row++)
-    {
-        for (int col = 0; col < input[row].Length; col++)
-        {
-            if (input[row][col] > 9)
-                input[row][col] = 0;
-        }
-    }
-    
+    input = input.Select(x => x.Select(y => y = y > 9 ? 0 : y).ToArray()).ToArray();
+
     if (input.Sum(p => p.Sum()) == 0)
     {
-        Console.WriteLine($"All flashed on day: {i+1}");
+        Console.WriteLine($"All flashed on day: {i + 1}");
         break;
     }
 }
