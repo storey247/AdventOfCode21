@@ -5,30 +5,32 @@ using aocextensions;
 
 var input = InputExtensions.GetAllInputAsInt("input.txt");
 var answer1 = 0;
-var answer2 = 0;
 
 // part 1
 for (int i = 0; i < 100; i++)
 {
-    var flashes = GetDailyFlash(ref input);
+    // increase everything by 1
+    input = input.IncrementAllByValue(1);
+
+    var flashes = GetDailyFlash(input);
     Console.WriteLine($"Flashes today: {flashes}");
     answer1 += flashes;
 
     // reset all the flashed octopods
     input = input.Select(x => x.Select(y => y = y > 9 ? 0 : y).ToArray()).ToArray();
-
-    if (input.Sum(p => p.Sum()) == 0)
-    {
-        Console.WriteLine($"All flashed on day: {i + 1}");
-        break;
-    }
+    
 }
+
+var answer2 = 0;
 
 //part 2
 input = InputExtensions.GetAllInputAsInt("input.txt");
 for (int i = 0; i < 100000; i++)
 {
-    GetDailyFlash(ref input);
+    // increase everything by 1
+    input = input.IncrementAllByValue(1);
+
+    GetDailyFlash(input);
     // reset all the flashed octopods
     input = input.Select(x => x.Select(y => y = y > 9 ? 0 : y).ToArray()).ToArray();
 
@@ -48,11 +50,8 @@ Console.WriteLine($"Answer2: {answer2}");
 if (answer2 != 210)
     throw new Exception();
 
-int GetDailyFlash(ref int[][] dailyInput)
+int GetDailyFlash(int[][] dailyInput)
 {
-    // increase everything by 1
-    dailyInput = dailyInput.IncrementAllByValue(1);
-    
     var flashes = 0;
     bool someoneFlash = true;
     while (someoneFlash)
