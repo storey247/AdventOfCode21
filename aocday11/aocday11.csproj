@@ -16,4 +16,8 @@
       </None>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\aocextensions\aocextensions.csproj" />
+    </ItemGroup>
+
 </Project>
