@@ -21,13 +21,14 @@ if (answer != 3230)
 if (answer2 != 83475)
     throw new Exception();
 
-int CountPaths(ILookup<string, string> validPaths, string src, string dest, Dictionary<string, int> visitedSmallCaves, bool allowDoubleVisits = false)
+int CountPaths(ILookup<string, string> validPaths, string startCave, string targetCave, 
+    Dictionary<string, int> visitedSmallCaves, bool allowDoubleVisits = false)
 {
-    if (src == dest)
+    if (startCave == targetCave)
         return 1;
 
-    var ans = 0;
-    foreach (var neighbor in validPaths[src])
+    var result = 0;
+    foreach (var neighbor in validPaths[startCave])
     {
         var alreadyVisited = visitedSmallCaves.ContainsKey(neighbor);
         // we've already seen this small cave and we don't allow double visits, skip this one
@@ -48,10 +49,10 @@ int CountPaths(ILookup<string, string> validPaths, string src, string dest, Dict
             newVisited[neighbor] = visitedSmallCaves.ContainsKey(neighbor) ? 2 : 1;
         
         // use dreaded recursion... FMAL I blame Mike Reeves for this!
-        ans += CountPaths(validPaths, neighbor, dest, newVisited, allowDoubleVisits);
+        result += CountPaths(validPaths, neighbor, targetCave, newVisited, allowDoubleVisits);
     }
 
-    return ans;
+    return result;
 }
 
 bool IsInvalidCave(string cave)
