@@ -1,5 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using aocextensions;
+
 var input = File.ReadAllLines("input.txt");
 var pathParts = input.Select(i => i.Split("-"))
     .SelectMany(x => new[] { (x[0], x[1]), (x[1], x[0]) });
@@ -17,7 +19,7 @@ Console.WriteLine(answer2);
 if (answer != 3230)
     throw new Exception();
 
-if (answer2 != 36)
+if (answer2 != 83475)
     throw new Exception();
 
 int CountPaths(ILookup<string, string> validPaths, string src, string dest, Dictionary<string, int> visitedSmallCaves, bool allowDoubleVisits = false)
@@ -28,26 +30,25 @@ int CountPaths(ILookup<string, string> validPaths, string src, string dest, Dict
     var ans = 0;
     foreach (var neighbor in validPaths[src])
     {
+        var alreadyVisited = visitedSmallCaves.ContainsKey(neighbor);
         // we've already seen this small cave and we don't allow double visits, skip this one
-        if (!allowDoubleVisits && visitedSmallCaves.ContainsKey(neighbor))
+        if (!allowDoubleVisits && alreadyVisited)
             continue;
 
         // we've already seen this small cave and we are allowing double visits
-        if (allowDoubleVisits && visitedSmallCaves.ContainsKey(neighbor))
+        if (allowDoubleVisits && alreadyVisited)
         {
-            if (IsInvalidCave(neighbor))
-                continue;
-            
             // because we only store small caves, and we have already checked the dictionary contains this cave...
             // we can only visit one small cave 2 times, so if theres already a 2... bail out!
-            if (visitedSmallCaves.ContainsValue(2))
+            if (IsInvalidCave(neighbor) || visitedSmallCaves.ContainsValue(2))
                 continue;
         }
         
         var newVisited = new Dictionary<string, int>(visitedSmallCaves);
         if (IsSmallCave(neighbor))
-            newVisited[neighbor] = allowDoubleVisits ? (visitedSmallCaves.ContainsKey(neighbor) ? 2 : 1) : 1;
+            newVisited[neighbor] = visitedSmallCaves.ContainsKey(neighbor) ? 2 : 1;
         
+        // use dreaded recursion... FMAL I blame Mike Reeves for this!
         ans += CountPaths(validPaths, neighbor, dest, newVisited, allowDoubleVisits);
     }
 
@@ -58,4 +59,4 @@ bool IsInvalidCave(string cave)
     => cave is "start" or "end";
 
 bool IsSmallCave(string cave)
-    => cave.All(char.IsLower);
+    => cave.IsAllLower();
