@@ -7,23 +7,55 @@ var pathParts = input.Select(i => i.Split("-"))
 var paths = pathParts.ToLookup(x => x.Item1, x => x.Item2);
 
 // part 1
-var answer = CountPaths(paths, "start", "end", new HashSet<string> { "start" }).ToString();
+var answer = CountPaths(paths, "start", "end", new Dictionary<string, int> { {"start", 1} });
 Console.WriteLine(answer);
 
+// part 2
+var answer2 = CountPaths(paths, "start", "end", new Dictionary<string, int> { {"start", 1} }, true);
+Console.WriteLine(answer2);
 
-int CountPaths(ILookup<string, string> graph, string src, string dest, HashSet<string> seen, bool allowDoubleVisits = false)
+if (answer != 3230)
+    throw new Exception();
+
+if (answer2 != 36)
+    throw new Exception();
+
+int CountPaths(ILookup<string, string> validPaths, string src, string dest, Dictionary<string, int> visitedSmallCaves, bool allowDoubleVisits = false)
 {
-    if (src.Equals(dest))
-    {
+    if (src == dest)
         return 1;
-    }
 
     var ans = 0;
-    foreach(var neighbor in graph[src].Where(n => !seen.Contains(n)))
+    foreach (var neighbor in validPaths[src])
     {
-        var newSeen = new HashSet<string>(seen);
-        if (neighbor.All(char.IsLower)) newSeen.Add(neighbor);
-        ans += CountPaths(graph, neighbor, dest, newSeen);
+        // we've already seen this small cave and we don't allow double visits, skip this one
+        if (!allowDoubleVisits && visitedSmallCaves.ContainsKey(neighbor))
+            continue;
+
+        // we've already seen this small cave and we are allowing double visits
+        if (allowDoubleVisits && visitedSmallCaves.ContainsKey(neighbor))
+        {
+            if (IsInvalidCave(neighbor))
+                continue;
+            
+            // because we only store small caves, and we have already checked the dictionary contains this cave...
+            // we can only visit one small cave 2 times, so if theres already a 2... bail out!
+            if (visitedSmallCaves.ContainsValue(2))
+                continue;
+        }
+        
+        var newVisited = new Dictionary<string, int>(visitedSmallCaves);
+        if (IsSmallCave(neighbor))
+            newVisited[neighbor] = allowDoubleVisits ? (visitedSmallCaves.ContainsKey(neighbor) ? 2 : 1) : 1;
+        
+        ans += CountPaths(validPaths, neighbor, dest, newVisited, allowDoubleVisits);
     }
+
     return ans;
 }
+
+bool IsInvalidCave(string cave)
+    => cave is "start" or "end";
+
+bool IsSmallCave(string cave)
+    => cave.All(char.IsLower);
