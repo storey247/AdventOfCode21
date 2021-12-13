@@ -40,15 +40,21 @@ for (int i = 0; i < folds.Count; i++)
 
 var answer1 = 0;
 
+var output = "";
 for (int i = 0; i < paper.GetLength(0); i++)
 {
     for (int j = 0; j < paper.GetLength(1); j++)
     {
         answer1 += paper[i,j] == '#' ? 1 : 0;
-        Console.Write(paper[i,j] == '#' ? 'x' : ' ');
+        output += paper[i,j] == '#' ? '#' : '.';
+        Console.Write(paper[i,j] == '#' ? '#' : '.');
     }
+    
     Console.WriteLine();
+    output += "\r\n";
 }
+
+File.WriteAllText("output.txt", output);
 
 
 Console.WriteLine(answer1);
@@ -58,13 +64,22 @@ char[,] DoVerticalFold(char[,] inputPaper, int row)
     var paperLength = inputPaper.GetLength(0) - 1;
 
     char[,] newPaper = new char[row, inputPaper.GetLength(1)];
-    
+
     for (int i = 0; i < row; i++)
     {
         for (int x = 0; x < inputPaper.GetLength(1); x++)
         {
-            newPaper[i, x] = inputPaper[i, x];
-            newPaper[i, x] = inputPaper[i, x] == '#' ? '#' : inputPaper[paperLength - i, x]; // copy from below fold
+            newPaper[i, x] = inputPaper[i, x]; // everything above fold gets copied
+        }
+    }
+
+    var rowCount = 0;
+    for (int i = row + 1; i <= paperLength; i++)
+    {
+        rowCount++;
+        for (int x = 0; x < inputPaper.GetLength(1); x++)
+        {
+            newPaper[row - rowCount, x] = inputPaper[row - rowCount, x] == '#' ? '#' : inputPaper[i, x]; // copy from below fold
         }
     }
 
