@@ -45,7 +45,7 @@ for (int i = 0; i < paper.GetLength(0); i++)
     for (int j = 0; j < paper.GetLength(1); j++)
     {
         answer1 += paper[i,j] == '#' ? 1 : 0;
-        Console.Write(paper[i,j] == '#' ? '#' : '.');
+        Console.Write(paper[i,j] == '#' ? 'x' : ' ');
     }
     Console.WriteLine();
 }
