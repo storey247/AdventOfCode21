@@ -1,52 +1,52 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using System.Text;
-
 var input = File.ReadAllLines("input.txt");
-
-var polymer = new StringBuilder(input[0]);
+var polymer = input[0];
 
 var instructions = input[2..]
-    .Select(i => i.Split("->", StringSplitOptions.RemoveEmptyEntries))
-    .ToDictionary(x => x[0].Trim(), x=> x[1].Trim());
+    .Select(i => i.Split(" -> ", StringSplitOptions.RemoveEmptyEntries))
+    .ToDictionary(x => x[0], x=> x[1]);
+
+Dictionary<string, long> polymerCounter = new();
+
+// seed the polymer counter with the starting input
+for (int i = 0; i < polymer.Length - 1; i++)
+{
+    var pair = polymer.Substring(i, 2);
+    polymerCounter[pair] = polymerCounter.GetValueOrDefault(pair, 0) + 1;
+}
 
 for (int i = 0; i < 40; i++)
 {
-    var chunks = Chunk(polymer.ToString(), 2);
-    var cluster = 1;
-    
-    foreach (var chunk in chunks)
+    Dictionary<string, long> newPolymerCounter = new();
+    foreach(var pairing in polymerCounter)
     {
-        var newPolymer = instructions[chunk];
-        polymer.Insert(cluster, newPolymer);
-        cluster += 2;
+        var pair = pairing.Key;
+        var left = pair[0] + instructions[pair];
+        var right = instructions[pair] + pair[1];
+
+        newPolymerCounter[left] = newPolymerCounter.GetValueOrDefault(left,0) + pairing.Value;
+        newPolymerCounter[right] = newPolymerCounter.GetValueOrDefault(right, 0) + pairing.Value;
     }
-    
-    Console.WriteLine(i);
+
+    // replace the old dictionary with the new one
+    polymerCounter = newPolymerCounter;
 }
 
-var ordered = polymer.ToString()
-    .GroupBy(x => x)
-    .Select(group => new { group.Key, Count = group.Count() })
-    .OrderBy(x => x.Count);
-
-var least = ordered.First().Count;
-var most = ordered.Last().Count;
-
-var answer1 = most - least;
-
-Console.WriteLine(answer1);
-
-
-static IEnumerable<string> Chunk(string str, int chunkSize)
+Dictionary<char, long> charCounter = new();
+foreach (var paring in polymerCounter)
 {
-    List<string> chunks = new();
-    
-    for (int i = 0; i < str.Length - 1; i++)
-    {
-        var endIndex = i + chunkSize;
-        chunks.Add(str[i..endIndex]);
-    }
-
-    return chunks;
+    charCounter[paring.Key[0]] = charCounter.GetValueOrDefault(paring.Key[0], 0) + paring.Value;
 }
+
+// need to remember to not ignore the very last part of the original polymer :/ 
+charCounter[polymer[^1]] = charCounter.GetValueOrDefault(polymer[^1], 0) + 1;
+
+var max = charCounter.Values.Max();
+var min = charCounter.Values.Min();
+var answer = max - min;
+
+Console.WriteLine(answer);
+
+if (answer != 2942885922173)
+    throw new Exception();
