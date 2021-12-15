@@ -22,8 +22,9 @@ for (int i = 0; i < 40; i++)
     foreach(var pairing in polymerCounter)
     {
         var pair = pairing.Key;
-        var left = pair[0] + instructions[pair];
-        var right = instructions[pair] + pair[1];
+        var newPolymerPart = instructions[pair];
+        var left = pair[0] + newPolymerPart;
+        var right = newPolymerPart + pair[1];
 
         newPolymerCounter[left] = newPolymerCounter.GetValueOrDefault(left,0) + pairing.Value;
         newPolymerCounter[right] = newPolymerCounter.GetValueOrDefault(right, 0) + pairing.Value;
