@@ -78,12 +78,12 @@ Dictionary<Point, int> BuildInputMap(int scaleUp = 0)
         {
             var increaseX = (buildMap.Max(p => p.Key.X) +1) * x;
 
-            foreach (var p in buildMap)
+            foreach (var (key, value) in buildMap)
             {
-                var newX = p.Key.X + increaseX;
-                var newY = p.Key.Y + increaseY;
+                var newX = key.X + increaseX;
+                var newY = key.Y + increaseY;
                     
-                var newRisk = p.Value + x + y;
+                var newRisk = value + x + y;
 
                 if (newRisk > 9)
                     newRisk %= 9;
