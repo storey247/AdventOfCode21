@@ -1,36 +1,41 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aoc1", "Aoc1\Aoc1.csproj", "{C9324A4C-C28D-4115-9A0A-2389619EE118}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aoc1", "Aoc1\Aoc1.csproj", "{C9324A4C-C28D-4115-9A0A-2389619EE118}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aocday3", "aocday3\aocday3.csproj", "{626DACB6-B863-4F72-9D13-31718708B105}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aocday3", "aocday3\aocday3.csproj", "{626DACB6-B863-4F72-9D13-31718708B105}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aocday4", "aocday4\aocday4.csproj", "{002A3923-EBD4-4294-AB64-938B4F647347}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aocday4", "aocday4\aocday4.csproj", "{002A3923-EBD4-4294-AB64-938B4F647347}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aocday5", "aocday5\aocday5.csproj", "{D0C67A23-0C1B-4050-82C3-751259346D81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aocday5", "aocday5\aocday5.csproj", "{D0C67A23-0C1B-4050-82C3-751259346D81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aocday6", "aocday6\aocday6.csproj", "{13810063-178A-48B8-A865-4A6008444C5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aocday6", "aocday6\aocday6.csproj", "{13810063-178A-48B8-A865-4A6008444C5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aocday7", "aocday7\aocday7.csproj", "{B74E485B-7BD0-4EE9-B400-055CA6B57F09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aocday7", "aocday7\aocday7.csproj", "{B74E485B-7BD0-4EE9-B400-055CA6B57F09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aocextensions", "aocextensions\aocextensions.csproj", "{2A2AA064-41C8-4C9A-A684-A37DCCF6C732}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aocextensions", "aocextensions\aocextensions.csproj", "{2A2AA064-41C8-4C9A-A684-A37DCCF6C732}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aocday8", "aocday8\aocday8.csproj", "{6C8C5898-1310-44BA-A9B9-1C9BD6D491B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aocday8", "aocday8\aocday8.csproj", "{6C8C5898-1310-44BA-A9B9-1C9BD6D491B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aocday9", "aocday9\aocday9.csproj", "{07A7907C-B9F4-4628-BBAB-B941AC1BA682}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aocday9", "aocday9\aocday9.csproj", "{07A7907C-B9F4-4628-BBAB-B941AC1BA682}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aocday10", "aocday10\aocday10.csproj", "{EEED56E8-6554-419C-8B77-0F6CECD39954}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aocday10", "aocday10\aocday10.csproj", "{EEED56E8-6554-419C-8B77-0F6CECD39954}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aocday11", "aocday11\aocday11.csproj", "{1766814F-A95C-4EFD-9E94-0FEB14FA6316}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aocday11", "aocday11\aocday11.csproj", "{1766814F-A95C-4EFD-9E94-0FEB14FA6316}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aocday12", "aocday12\aocday12.csproj", "{4FE772CA-B083-490D-B49A-2399A70ECB86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aocday12", "aocday12\aocday12.csproj", "{4FE772CA-B083-490D-B49A-2399A70ECB86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aocday13", "aocday13\aocday13.csproj", "{1D04677C-FB7C-4AA1-A268-2D0B4123DFE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aocday13", "aocday13\aocday13.csproj", "{1D04677C-FB7C-4AA1-A268-2D0B4123DFE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aocday14", "aocday14\aocday14.csproj", "{EF3E3706-A465-4F97-AB62-4E8CC07C014E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aocday14", "aocday14\aocday14.csproj", "{EF3E3706-A465-4F97-AB62-4E8CC07C014E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aocday15", "aocday15\aocday15.csproj", "{07453E2E-C9E1-47E0-85D4-101BF3B33743}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aocday15", "aocday15\aocday15.csproj", "{07453E2E-C9E1-47E0-85D4-101BF3B33743}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aocday16", "aocday16\aocday16.csproj", "{A85801B8-A231-4739-91F1-DD171A5C65FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aocday16", "aocday16\aocday16.csproj", "{A85801B8-A231-4739-91F1-DD171A5C65FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aocday21", "aocday21\aocday21.csproj", "{3A6DC7C6-687F-4EAD-9B87-05E57BBDE978}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -102,5 +107,15 @@ Global
 		{A85801B8-A231-4739-91F1-DD171A5C65FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A85801B8-A231-4739-91F1-DD171A5C65FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A85801B8-A231-4739-91F1-DD171A5C65FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A6DC7C6-687F-4EAD-9B87-05E57BBDE978}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A6DC7C6-687F-4EAD-9B87-05E57BBDE978}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A6DC7C6-687F-4EAD-9B87-05E57BBDE978}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A6DC7C6-687F-4EAD-9B87-05E57BBDE978}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {547E5D0C-B0E5-4DC3-BE53-DDFFD1D40862}
 	EndGlobalSection
 EndGlobal
