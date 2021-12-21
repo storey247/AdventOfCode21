@@ -45,9 +45,8 @@ Console.WriteLine(answer1);
 
 // part 2 with quantum dice!
 
-var p1 = 4;
-var p2 = 5;
-dice = 1;
+player1Position = 4;
+player2Position = 5;
 long player1Wins = 0;
 long player2Wins = 0;
 
@@ -59,9 +58,9 @@ for (int i = 1; i <= 3; i++)
     {
         for (int k = 1; k <= 3; k++)
         {
-            (long a, long b) = QuantumRoll(p1, 0, p2, 0, false, i + j + k);
-            player1Wins += a;
-            player2Wins += b;
+            (long p1WinCount, long p2WinCount) = QuantumRoll(player1Position, 0, player2Position, 0, false, i + j + k);
+            player1Wins += p1WinCount;
+            player2Wins += p2WinCount;
         }
     }
 }
