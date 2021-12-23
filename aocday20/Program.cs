@@ -31,17 +31,13 @@ Console.WriteLine(imageMap.Count);
 
 HashSet<(int,int)> EnhanceMap(HashSet<(int y,int x)> map, bool first)
 {
-    var minx = map.MinBy(pos => pos.x).x - 1;
-    var miny = map.MinBy(pos => pos.y).y - 1;
-    var maxx = map.MaxBy(pos => pos.x).x + 1;
-    var maxy = map.MaxBy(pos => pos.y).y + 1;
-
+    var points = GetPoints(map, 1);
     var enhancedImageMap = new HashSet<(int,int)>();
 
-    for (var y = miny; y <= maxy; y++)
-    for (var x = minx; x <= maxx; x++)
+    for (var y = points.minY; y <= points.maxY; y++)
+    for (var x = points.minX; x <= points.maxX; x++)
     {
-        if (ShouldBitBeOn(y,x, map, first, minx, miny, maxx, maxy))
+        if (ShouldBitBeOn(y,x, map, first, points.minX, points.minY, points.maxX, points.maxY))
         {
             enhancedImageMap.Add((y,x));
         }
@@ -50,20 +46,17 @@ HashSet<(int,int)> EnhanceMap(HashSet<(int y,int x)> map, bool first)
     if (!first || imageEnhancementAlgorithm[0] != '#') 
         return enhancedImageMap;
     
-    minx = map.MinBy(pos => pos.x).x - 2;
-    miny = map.MinBy(pos => pos.y).y - 2;
-    maxx = map.MaxBy(pos => pos.x).x + 2;
-    maxy = map.MaxBy(pos => pos.y).y + 2;
+    points = GetPoints(map, 2);
 
-    for (var y = miny; y <= maxy; y++)
+    for (var y = points.minY; y <= points.maxY; y++)
     {
-        enhancedImageMap.Add((y,minx));
-        enhancedImageMap.Add((y,maxx));
+        enhancedImageMap.Add((y, points.minX));
+        enhancedImageMap.Add((y, points.maxX));
     }
-    for (var x = minx; x <= maxx; x++)
+    for (var x = points.minX; x <= points.maxX; x++)
     {
-        enhancedImageMap.Add((miny,x));
-        enhancedImageMap.Add((maxy,x));
+        enhancedImageMap.Add((points.minY, x));
+        enhancedImageMap.Add((points.maxY, x));
     }
     return enhancedImageMap;
 }
@@ -84,4 +77,12 @@ bool ShouldBitBeOn(int y, int x, HashSet<(int, int)> map, bool first, int minx, 
     }
 
     return imageEnhancementAlgorithm[index] == '#';
+}
+
+(int minX, int minY, int maxX, int maxY) GetPoints(HashSet<(int, int)> map, int offset)
+{
+    return (map.MinBy(pos => pos.Item2).Item2 - offset,
+        map.MinBy(pos => pos.Item1).Item1 - offset,
+        map.MaxBy(pos => pos.Item2).Item2 + offset,
+        map.MaxBy(pos => pos.Item1).Item1 + offset);
 }
